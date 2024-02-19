@@ -9,6 +9,7 @@ export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
   const [enteredGoalText, setEnteredGoalText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [usermodalVisible, usersetModalVisible] = useState(false);
   const [warningModalVisible, setWarningModalVisible] = useState(false);
 
   const addGoalHandler = (enteredGoalText) => {
@@ -32,8 +33,29 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.user}>
+      <Pressable onPress={() => usersetModalVisible(true)}>
       <Icon name="user" size={50} style={styles.usericon} />
+      </Pressable>
+     
       </View>
+      
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={usermodalVisible}
+        onRequestClose={() => usersetModalVisible(false)}
+      >
+        <View style={styles.userModalView}>
+          <Text style={styles.usermodalText}>Welcome User!</Text>
+          <Pressable
+            onPress={() => usersetModalVisible(false)}
+            style={styles.userbutton}
+          >
+            <Icon style={styles.times} name="times" size={20} color="red" />
+          </Pressable>
+        </View>
+      </Modal>
+
       <View>
         <GoalInput onAddGoal={addGoalHandler}/>
       </View>
@@ -44,7 +66,7 @@ export default function App() {
       </Pressable>
 
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
@@ -69,7 +91,7 @@ export default function App() {
       </Modal>
 
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={warningModalVisible}
         onRequestClose={() => setWarningModalVisible(false)}
@@ -100,10 +122,41 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 20,
     borderRadius: 100,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
     
   },
+  userModalView:{
+    backgroundColor: "#1ED9D2",
+    alignItems: 'center',
+    marginTop: "20%",
+    marginLeft: "10%",
+    marginRight: "10%",
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  userbutton:{
+    marginBottom: 10,
+  },
+  usermodalText:{
+    alignSelf: 'center',
+    marginTop: 30,
+    marginBottom: 30,
+  },
   usericon:{
-    color: 'blacl',
+    color: 'black',
   },
   Line:{
     width:'100%',
@@ -183,10 +236,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   warningModalText:{
-    marginTop: 5,
-    alignContent: 'space-between',
-    width: '90%',
-    marginBottom: 10,
+    marginTop: 50,
+    marginBottom: 30,
+    alignSelf: 'center',
   },
   warningButtonClose:{
     width: '60%',
